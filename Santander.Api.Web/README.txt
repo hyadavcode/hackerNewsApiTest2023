@@ -1,14 +1,23 @@
-
-
-#ASSUMPTIONS
+ASSUMPTIONS / CONTEXT
 ==============================================
 
 1. Hacker News API data does not get updated very frequently (i.e. the update latency is not in the order of less than 30 milliseconds
 2. The users of this application are not expecting real time live updates and that caching data for a small fraction of time is acceptable here
+3. For purpose of this test, no authorization and authentication was required
+4. Logging support is implemented right across the code but, no external logger or Telemetry frameworks have been used 
 
 
+HOW TO RUN
+================================================
+1. Easiest option is to open in Visual Studio 
+2. Set Santander.Api.Web project as Startup project 
+3. Run/Debug the application
+4. In web browser, navigate to the URL https://localhost:7284/swagger
+   This will launch the Swagger UI, which will provide all necessary documentation and tooling on the endpoint 
+   and the API endpoint can be invoked directly from there
 
-#Low Level Application Architecture and important points
+
+Low Level Application Architecture and important points
 ===============================================================================
 
 1. The application is coded in ASP.Net Core 6 / .Net core 6
@@ -27,7 +36,7 @@
 13. Response cache is not used here to keep cache control server-side
 
 
-#Application Sequence Flow 
+Application Sequence Flow 
 ======================================================================================
 1.  User  --->   GET API Endpoint  (/hackernewsfeed/beststories/50)
 
@@ -64,9 +73,9 @@
 
 
 
-#PROs and CONs of this architecture approach
+PROs and CONs of this architecture approach
 =============================================================================
-##PROS ********
+PROS ********
 1. It leverages a cache between Hacker News API and the Handler which will help in the following ways
      a. Improve overall query performance and latency
      b. Substantially reduce hits to Hacker News API
@@ -85,7 +94,7 @@
 
 5. Use of HttpClientFactory takes care of socket management effectively
 
-##CONS *********
+CONS *********
 1. This approach might not work entirely on its own for a real time application that deals with over 1000s of transactions
     per second which include all kinds of CRUD operations
 
@@ -96,7 +105,9 @@
 
 
 
-# WHAT else could be done in a proper production application or there was more time to implement a better solution ***
+
+
+****** WHAT else could be done in a proper production application or there was more time to implement a better solution ***
 =======================================================================================================================
 
 1. Add more unit test coverage. Currently unit tests are done selectively for Controller and Handler only
